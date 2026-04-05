@@ -444,5 +444,22 @@
     function viewDetails(d) { const body = document.getElementById('modalBody'); body.innerHTML = ""; Object.keys(d).forEach(k => body.innerHTML += `<div class="detail-item"><small>${k.toUpperCase()}</small><div>${d[k]}</div></div>`); document.getElementById('detailModal').style.display = "block"; }
     function closeModal() { document.getElementById('detailModal').style.display = "none"; }
 </script>
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBVatrQtiMnIvxz3sAbAhm1u8LxGQimlp4",
+  authDomain: "pierrot-dcddb.firebaseapp.com",
+  projectId: "pierrot-dcddb",
+  storageBucket: "pierrot-dcddb.firebasestorage.app",
+  messagingSenderId: "276195689486",
+  appId: "1:276195689486:web:53f3983eb9e65725ce285f"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 </body>
 </html>
