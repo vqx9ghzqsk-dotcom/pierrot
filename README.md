@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -443,8 +442,7 @@
     function addRow(d) { const row = `<tr><td><b>#${d.fiche}</b></td><td>${d.age} ans</td><td>${d.sexe}</td><td>${d.type || '-'}</td><td><button onclick='viewDetails(${JSON.stringify(d)})'>👁️</button></td></tr>`; document.getElementById('matrix-body').innerHTML = row + document.getElementById('matrix-body').innerHTML; }
     function viewDetails(d) { const body = document.getElementById('modalBody'); body.innerHTML = ""; Object.keys(d).forEach(k => body.innerHTML += `<div class="detail-item"><small>${k.toUpperCase()}</small><div>${d[k]}</div></div>`); document.getElementById('detailModal').style.display = "block"; }
     function closeModal() { document.getElementById('detailModal').style.display = "none"; }
-</script>
-// Import the functions you need from the SDKs you need
+    // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -461,5 +459,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+</script>
 </body>
 </html>
