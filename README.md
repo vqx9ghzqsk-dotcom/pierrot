@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -288,8 +289,8 @@
                     <div class="field-group">
                         <label>Sexe :</label>
                         <div class="radio-group">
-                            <label class="radio-choice"><input type="radio" name="sexe" value="Masculin"> ■ Masculin</label>
-                            <label class="radio-choice"><input type="radio" name="sexe" value="Féminin"> ■ Féminin</label>
+                            <label class="radio-choice"><input type="radio" name="sexe" value="Masculin"> Masculin</label>
+                            <label class="radio-choice"><input type="radio" name="sexe" value="Féminin"> Féminin</label>
                         </div>
                     </div>
                 </div>
@@ -303,12 +304,12 @@
                 <div class="field-group" style="margin-bottom: 30px;">
                     <label>1. Motif de consultation :</label>
                     <div class="pills-grid" id="motif_list">
-                        <label class="check-pill"><input type="checkbox" name="motif" value="Douleur dentaire"><span>■ Douleur dentaire</span></label>
-                        <label class="check-pill"><input type="checkbox" name="motif" value="Carie"><span>■ Carie</span></label>
-                        <label class="check-pill"><input type="checkbox" name="motif" value="Mobilité dentaire"><span>■ Mobilité dentaire</span></label>
-                        <label class="check-pill"><input type="checkbox" name="motif" value="Infection"><span>■ Infection</span></label>
-                        <label class="check-pill"><input type="checkbox" name="motif" value="Traumatisme"><span>■ Traumatisme</span></label>
-                        <label class="check-pill"><input type="checkbox" name="motif" value="Orthodontique"><span>■ Indication orthodontique</span></label>
+                        <label class="check-pill"><input type="checkbox" name="motif" value="Douleur dentaire"><span>Douleur dentaire</span></label>
+                        <label class="check-pill"><input type="checkbox" name="motif" value="Carie"><span>Carie</span></label>
+                        <label class="check-pill"><input type="checkbox" name="motif" value="Mobilité dentaire"><span>Mobilité dentaire</span></label>
+                        <label class="check-pill"><input type="checkbox" name="motif" value="Infection"><span>Infection</span></label>
+                        <label class="check-pill"><input type="checkbox" name="motif" value="Traumatisme"><span>Traumatisme</span></label>
+                        <label class="check-pill"><input type="checkbox" name="motif" value="Orthodontique"><span>Indication orthodontique</span></label>
                     </div>
                     <input type="text" id="motif_autres" placeholder="Autres : ...">
                 </div>
@@ -319,8 +320,8 @@
                     <div class="field-group">
                         <label>3. Arcade :</label>
                         <div class="radio-group">
-                            <label class="radio-choice"><input type="radio" name="arcade" value="Maxillaire"> ■ Maxillaire</label>
-                            <label class="radio-choice"><input type="radio" name="arcade" value="Mandibulaire"> ■ Mandibulaire</label>
+                            <label class="radio-choice"><input type="radio" name="arcade" value="Maxillaire"> Maxillaire</label>
+                            <label class="radio-choice"><input type="radio" name="arcade" value="Mandibulaire"> Mandibulaire</label>
                         </div>
                     </div>
                 </div>
@@ -329,13 +330,13 @@
                 <div class="field-group" style="margin: 30px 0;">
                     <label>4. Indication de l'extraction :</label>
                     <div class="pills-grid" id="indication_list">
-                        <label class="check-pill"><input type="checkbox" name="indication" value="Carie compliquée"><span>■ Carie compliquée</span></label>
-                        <label class="check-pill"><input type="checkbox" name="indication" value="Nécrose pulpaire"><span>■ Nécrose pulpaire</span></label>
-                        <label class="check-pill"><input type="checkbox" name="indication" value="Parodontite avancée"><span>■ Parodontite avancée</span></label>
-                        <label class="check-pill"><input type="checkbox" name="indication" value="Dent incluse"><span>■ Dent incluse</span></label>
-                        <label class="check-pill"><input type="checkbox" name="indication" value="Dent fracturée"><span>■ Dent fracturée</span></label>
-                        <label class="check-pill"><input type="checkbox" name="indication" value="Orthodontique"><span>■ Orthodontique</span></label>
-                        <label class="check-pill"><input type="checkbox" name="indication" value="Infection sévère"><span>■ Infection sévère</span></label>
+                        <label class="check-pill"><input type="checkbox" name="indication" value="Carie compliquée"><span>Carie compliquée</span></label>
+                        <label class="check-pill"><input type="checkbox" name="indication" value="Nécrose pulpaire"><span>Nécrose pulpaire</span></label>
+                        <label class="check-pill"><input type="checkbox" name="indication" value="Parodontite avancée"><span>Parodontite avancée</span></label>
+                        <label class="check-pill"><input type="checkbox" name="indication" value="Dent incluse"><span>Dent incluse</span></label>
+                        <label class="check-pill"><input type="checkbox" name="indication" value="Dent fracturée"><span>Dent fracturée</span></label>
+                        <label class="check-pill"><input type="checkbox" name="indication" value="Orthodontique"><span>Orthodontique</span></label>
+                        <label class="check-pill"><input type="checkbox" name="indication" value="Infection sévère"><span>Infection sévère</span></label>
                     </div>
                     <input type="text" id="indication_autres" placeholder="Autres : ...">
                 </div>
@@ -344,9 +345,9 @@
                 <div class="field-group" style="margin-bottom: 30px;">
                     <label>5. Examen(s) complémentaire(s) :</label>
                     <div class="pills-grid" id="examen_list">
-                        <label class="check-pill"><input type="checkbox" name="examen" value="Radiographie"><span>■ Radiographie</span></label>
-                        <label class="check-pill"><input type="checkbox" name="examen" value="Panoramique"><span>■ Panoramique</span></label>
-                        <label class="check-pill"><input type="checkbox" name="examen" value="Aucun"><span>■ Aucun</span></label>
+                        <label class="check-pill"><input type="checkbox" name="examen" value="Radiographie"><span>Radiographie</span></label>
+                        <label class="check-pill"><input type="checkbox" name="examen" value="Panoramique"><span>Panoramique</span></label>
+                        <label class="check-pill"><input type="checkbox" name="examen" value="Aucun"><span>Aucun</span></label>
                     </div>
                     <input type="text" id="examen_autres" placeholder="Autres : ...">
                 </div>
@@ -355,8 +356,8 @@
                 <div class="field-group" style="margin-bottom: 30px;">
                     <label>6. Type d'extraction :</label>
                     <div class="radio-group">
-                        <label class="radio-choice"><input type="radio" name="type_extraction" value="Simple"> ■ Simple</label>
-                        <label class="radio-choice"><input type="radio" name="type_extraction" value="Chirurgicale"> ■ Chirurgicale</label>
+                        <label class="radio-choice"><input type="radio" name="type_extraction" value="Simple"> Simple</label>
+                        <label class="radio-choice"><input type="radio" name="type_extraction" value="Chirurgicale"> Chirurgicale</label>
                     </div>
                 </div>
 
@@ -375,11 +376,11 @@
                 <div class="field-group" style="margin-bottom: 30px;">
                     <label>8. Complications :</label>
                     <div class="pills-grid" id="complication_list">
-                        <label class="check-pill"><input type="checkbox" name="complication" value="Aucune"><span>■ Aucune</span></label>
-                        <label class="check-pill"><input type="checkbox" name="complication" value="Hémorragie"><span>■ Hémorragie</span></label>
-                        <label class="check-pill"><input type="checkbox" name="complication" value="Infection"><span>■ Infection</span></label>
-                        <label class="check-pill"><input type="checkbox" name="complication" value="Alvéolite"><span>■ Alvéolite</span></label>
-                        <label class="check-pill"><input type="checkbox" name="complication" value="Douleur persistante"><span>■ Douleur persistante</span></label>
+                        <label class="check-pill"><input type="checkbox" name="complication" value="Aucune"><span>Aucune</span></label>
+                        <label class="check-pill"><input type="checkbox" name="complication" value="Hémorragie"><span>Hémorragie</span></label>
+                        <label class="check-pill"><input type="checkbox" name="complication" value="Infection"><span>Infection</span></label>
+                        <label class="check-pill"><input type="checkbox" name="complication" value="Alvéolite"><span>Alvéolite</span></label>
+                        <label class="check-pill"><input type="checkbox" name="complication" value="Douleur persistante"><span>Douleur persistante</span></label>
                     </div>
                     <input type="text" id="complication_autres" placeholder="Autres : ...">
                 </div>
@@ -407,7 +408,16 @@
 <div id="detailModal" class="modal"><div class="modal-content"><div style="display:flex;justify-content:space-between;margin-bottom:20px;"><h2>Détails complets</h2><span class="close-btn" onclick="closeModal()">&times;</span></div><div id="modalBody" class="detail-grid"></div></div></div>
 
 <script>
-    const firebaseConfig = { apiKey: "AIzaSyCecExYoYq32VmBo7Yx04DdcveRXeZsGAU", authDomain: "nkosi-54d5f.firebaseapp.com", projectId: "nkosi-54d5f", storageBucket: "nkosi-54d5f.firebasestorage.app", messagingSenderId: "19720307891", appId: "1:19720307891:web:ba12bc74ede0fc266c9cc6", databaseURL: "https://nkosi-54d5f-default-rtdb.firebaseio.com" };
+    // --- 1. CONFIGURATION FIREBASE ---
+    const firebaseConfig = {
+        apiKey: "AIzaSyBVatrQtiMnIvxz3sAbAhm1u8LxGQimlp4",
+        authDomain: "pierrot-dcddb.firebaseapp.com",
+        projectId: "pierrot-dcddb",
+        storageBucket: "pierrot-dcddb.firebasestorage.app",
+        messagingSenderId: "276195689486",
+        appId: "1:276195689486:web:53f3983eb9e65725ce285f",
+        databaseURL: "https://pierrot-dcddb-default-rtdb.firebaseio.com" // URL standard pour Realtime Database
+    };
     let db = null;
     try { firebase.initializeApp(firebaseConfig); db = firebase.database(); document.getElementById('db-status').innerText = "✅ Connecté"; document.getElementById('db-status').style.color = "green"; } catch(e) {}
 
@@ -442,23 +452,6 @@
     function addRow(d) { const row = `<tr><td><b>#${d.fiche}</b></td><td>${d.age} ans</td><td>${d.sexe}</td><td>${d.type || '-'}</td><td><button onclick='viewDetails(${JSON.stringify(d)})'>👁️</button></td></tr>`; document.getElementById('matrix-body').innerHTML = row + document.getElementById('matrix-body').innerHTML; }
     function viewDetails(d) { const body = document.getElementById('modalBody'); body.innerHTML = ""; Object.keys(d).forEach(k => body.innerHTML += `<div class="detail-item"><small>${k.toUpperCase()}</small><div>${d[k]}</div></div>`); document.getElementById('detailModal').style.display = "block"; }
     function closeModal() { document.getElementById('detailModal').style.display = "none"; }
-    // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyBVatrQtiMnIvxz3sAbAhm1u8LxGQimlp4",
-  authDomain: "pierrot-dcddb.firebaseapp.com",
-  projectId: "pierrot-dcddb",
-  storageBucket: "pierrot-dcddb.firebasestorage.app",
-  messagingSenderId: "276195689486",
-  appId: "1:276195689486:web:53f3983eb9e65725ce285f"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
 </script>
 </body>
 </html>
