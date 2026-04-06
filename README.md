@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DentStat Makala - Plateforme de Recherche Extractions Dentaires</title>
-    <!-- Google Fonts & Firebase SDK -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <style>
         :root {
             --primary: #00897b;
@@ -225,9 +222,11 @@
         table { width: 100%; border-collapse: collapse; min-width: 1000px; }
         th { background: #f8fafc; padding: 20px; text-align: left; font-size: 11px; font-weight: 800; color: var(--text-sec); text-transform: uppercase; border-bottom: 2px solid var(--border); }
         td { padding: 18px 20px; border-bottom: 1px solid var(--border); font-size: 14px; }
+        .action-btn { background: none; border: none; font-size: 20px; cursor: pointer; transition: var(--transition); }
+        .action-btn:hover { transform: scale(1.2); }
 
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); padding: 20px; }
-        .modal-content { background: #fff; margin: 2vh auto; padding: 40px; border-radius: 28px; width: 100%; max-width: 900px; max-height: 90vh; overflow-y: auto; shadow: var(--shadow-lg); position: relative; }
+        .modal-content { background: #fff; margin: 2vh auto; padding: 40px; border-radius: 28px; width: 100%; max-width: 900px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); position: relative; }
         .close-btn { font-size: 32px; cursor: pointer; color: var(--text-sec); }
         .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .detail-item { padding: 16px; background: #f8fafc; border-radius: 14px; border-left: 5px solid var(--primary); }
@@ -260,10 +259,8 @@
         <button class="tab-btn" onclick="switchTab(4)">⚙️ Paramètres</button>
     </nav>
 
-    <!-- TAB 1: COLLECTE (CONFORME À LA PHOTO) -->
     <div id="tab-1" class="content-area active">
         <form id="dentalForm">
-            <!-- I. IDENTIFICATION -->
             <div class="section-box">
                 <div class="section-title"><span>I. IDENTIFICATION</span></div>
                 <div class="field-grid">
@@ -273,7 +270,6 @@
                 </div>
             </div>
 
-            <!-- II. DATE DE CONSULTATION -->
             <div class="section-box">
                 <div class="section-title"><span>II. DATE DE CONSULTATION</span></div>
                 <div class="field-grid">
@@ -281,7 +277,6 @@
                 </div>
             </div>
 
-            <!-- III. DONNÉES SOCIODÉMOGRAPHIQUES -->
             <div class="section-box">
                 <div class="section-title"><span>III. DONNÉES SOCIODÉMOGRAPHIQUES</span></div>
                 <div class="field-grid">
@@ -296,11 +291,9 @@
                 </div>
             </div>
 
-            <!-- IV. DONNÉES CLINIQUES -->
             <div class="section-box">
                 <div class="section-title"><span>IV. DONNÉES CLINIQUES</span></div>
                 
-                <!-- 1. Motif -->
                 <div class="field-group" style="margin-bottom: 30px;">
                     <label>1. Motif de consultation :</label>
                     <div class="pills-grid" id="motif_list">
@@ -314,7 +307,6 @@
                     <input type="text" id="motif_autres" placeholder="Autres : ...">
                 </div>
 
-                <!-- 2 & 3 -->
                 <div class="field-grid">
                     <div class="field-group"><label>2. Dent concernée :</label><input type="text" id="dent_concernee"></div>
                     <div class="field-group">
@@ -326,7 +318,6 @@
                     </div>
                 </div>
 
-                <!-- 4. Indication -->
                 <div class="field-group" style="margin: 30px 0;">
                     <label>4. Indication de l'extraction :</label>
                     <div class="pills-grid" id="indication_list">
@@ -341,7 +332,6 @@
                     <input type="text" id="indication_autres" placeholder="Autres : ...">
                 </div>
 
-                <!-- 5. Examens -->
                 <div class="field-group" style="margin-bottom: 30px;">
                     <label>5. Examen(s) complémentaire(s) :</label>
                     <div class="pills-grid" id="examen_list">
@@ -352,7 +342,6 @@
                     <input type="text" id="examen_autres" placeholder="Autres : ...">
                 </div>
 
-                <!-- 6. Type -->
                 <div class="field-group" style="margin-bottom: 30px;">
                     <label>6. Type d'extraction :</label>
                     <div class="radio-group">
@@ -361,7 +350,6 @@
                     </div>
                 </div>
 
-                <!-- 7. Traitement associé -->
                 <div class="field-group" style="margin-bottom: 30px;">
                     <label>7. Traitement médical associé :</label>
                     <div class="field-grid" style="margin-top: 10px;">
@@ -372,7 +360,6 @@
                     </div>
                 </div>
 
-                <!-- 8. Complications -->
                 <div class="field-group" style="margin-bottom: 30px;">
                     <label>8. Complications :</label>
                     <div class="pills-grid" id="complication_list">
@@ -385,7 +372,6 @@
                     <input type="text" id="complication_autres" placeholder="Autres : ...">
                 </div>
 
-                <!-- Observations -->
                 <div class="field-group">
                     <label>Observations complémentaires :</label>
                     <textarea id="observations" rows="5" placeholder="Saisir ici les observations finales..."></textarea>
@@ -396,34 +382,74 @@
         </form>
     </div>
 
-    <!-- TABS 2, 3, 4 (OMITTED FOR BREVITY BUT KEPT LOGIC) -->
     <div id="tab-2" class="content-area">
         <div id="sync-indicator"><div class="pulse"></div> Données en direct</div>
-        <div class="data-table-container"><table><thead><tr><th>N° Fiche</th><th>Âge</th><th>Sexe</th><th>Traitement</th><th>Actions</th></tr></thead><tbody id="matrix-body"></tbody></table></div>
+        <div class="data-table-container">
+            <table>
+                <thead>
+                    <tr><th>N° Fiche</th><th>Âge</th><th>Sexe</th><th>Type Extraction</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="matrix-body"></tbody>
+            </table>
+        </div>
     </div>
+    
     <div id="tab-3" class="content-area"><h3>Analyses Statistiques</h3><p>Graphiques en cours de génération...</p></div>
-    <div id="tab-4" class="content-area"><h3>Configuration Cloud</h3><p id="db-status" style="color:red;">Non connecté</p></div>
+    
+    <div id="tab-4" class="content-area"><h3>Configuration Cloud</h3><p id="db-status" style="color:red; font-weight: bold;">En attente de connexion...</p></div>
 </div>
 
-<div id="detailModal" class="modal"><div class="modal-content"><div style="display:flex;justify-content:space-between;margin-bottom:20px;"><h2>Détails complets</h2><span class="close-btn" onclick="closeModal()">&times;</span></div><div id="modalBody" class="detail-grid"></div></div></div>
+<div id="detailModal" class="modal">
+    <div class="modal-content">
+        <div style="display:flex;justify-content:space-between;margin-bottom:20px;">
+            <h2>Détails complets de la fiche</h2>
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+        </div>
+        <div id="modalBody" class="detail-grid"></div>
+    </div>
+</div>
 
-<script>
-    // --- 1. CONFIGURATION FIREBASE ---
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+    // Configuration Firebase
     const firebaseConfig = {
         apiKey: "AIzaSyBVatrQtiMnIvxz3sAbAhm1u8LxGQimlp4",
         authDomain: "pierrot-dcddb.firebaseapp.com",
         projectId: "pierrot-dcddb",
         storageBucket: "pierrot-dcddb.firebasestorage.app",
         messagingSenderId: "276195689486",
-        appId: "1:276195689486:web:53f3983eb9e65725ce285f",
-        databaseURL: "https://pierrot-dcddb-default-rtdb.firebaseio.com" // URL standard pour Realtime Database
+        appId: "1:276195689486:web:baaeaa75820c4c28ce285f",
+        databaseURL: "https://pierrot-dcddb-default-rtdb.firebaseio.com" // Ajout obligatoire pour Realtime Database
     };
-    let db = null;
-    try { firebase.initializeApp(firebaseConfig); db = firebase.database(); document.getElementById('db-status').innerText = "✅ Connecté"; document.getElementById('db-status').style.color = "green"; } catch(e) {}
 
-    function switchTab(n) { document.querySelectorAll('.content-area').forEach(a => a.classList.remove('active')); document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.getElementById('tab-'+n).classList.add('active'); document.querySelectorAll('.tab-btn')[n-1].classList.add('active'); }
-    function getChecked(name) { let items = []; document.querySelectorAll(`input[name="${name}"]:checked`).forEach(c => items.push(c.value)); return items.join(', '); }
+    // Initialisation
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
+    document.getElementById('db-status').innerText = "✅ Connecté à Firebase";
+    document.getElementById('db-status').style.color = "green";
+
+    // Gestion de l'interface graphique rattachée à "window" car on est dans un module
+    window.switchTab = function(n) { 
+        document.querySelectorAll('.content-area').forEach(a => a.classList.remove('active')); 
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); 
+        document.getElementById('tab-'+n).classList.add('active'); 
+        document.querySelectorAll('.tab-btn')[n-1].classList.add('active'); 
+    };
+
+    window.closeModal = function() { 
+        document.getElementById('detailModal').style.display = "none"; 
+    };
+
+    function getChecked(name) { 
+        let items = []; 
+        document.querySelectorAll(`input[name="${name}"]:checked`).forEach(c => items.push(c.value)); 
+        return items.join(', '); 
+    }
+
+    // Sauvegarde des données
     document.getElementById('saveBtn').addEventListener('click', () => {
         const data = {
             fiche: document.getElementById('n_fiche').value,
@@ -443,15 +469,52 @@
             observations: document.getElementById('observations').value,
             timestamp: new Date().toLocaleString()
         };
-        if(!data.fiche) return alert("Fiche obligatoire");
-        if(db) db.ref('extractions').push(data).then(() => { alert("Synchronisé!"); document.getElementById('dentalForm').reset(); }).catch(e => alert(e.message));
-        else addRow(data);
+
+        if(!data.fiche) return alert("Le numéro de fiche est obligatoire.");
+
+        // Push des données vers la Realtime Database
+        push(ref(db, 'extractions'), data)
+            .then(() => { 
+                alert("✅ Données synchronisées avec succès !"); 
+                document.getElementById('dentalForm').reset(); 
+            })
+            .catch(e => {
+                alert("❌ Erreur lors de la synchronisation : " + e.message);
+                console.error(e);
+            });
     });
 
-    if(db) db.ref('extractions').on('value', snap => { const body = document.getElementById('matrix-body'); body.innerHTML = ""; snap.forEach(c => addRow(c.val())); });
-    function addRow(d) { const row = `<tr><td><b>#${d.fiche}</b></td><td>${d.age} ans</td><td>${d.sexe}</td><td>${d.type || '-'}</td><td><button onclick='viewDetails(${JSON.stringify(d)})'>👁️</button></td></tr>`; document.getElementById('matrix-body').innerHTML = row + document.getElementById('matrix-body').innerHTML; }
-    function viewDetails(d) { const body = document.getElementById('modalBody'); body.innerHTML = ""; Object.keys(d).forEach(k => body.innerHTML += `<div class="detail-item"><small>${k.toUpperCase()}</small><div>${d[k]}</div></div>`); document.getElementById('detailModal').style.display = "block"; }
-    function closeModal() { document.getElementById('detailModal').style.display = "none"; }
+    // Lecture et affichage en temps réel dans l'onglet 2
+    onValue(ref(db, 'extractions'), (snapshot) => { 
+        const body = document.getElementById('matrix-body'); 
+        body.innerHTML = ""; 
+        
+        snapshot.forEach((childSnapshot) => {
+            const d = childSnapshot.val();
+            // Création de la ligne pour le tableau
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><b>#${d.fiche}</b></td>
+                <td>${d.age ? d.age + ' ans' : '-'}</td>
+                <td>${d.sexe}</td>
+                <td>${d.type || '-'}</td>
+                <td><button class="action-btn" title="Voir les détails">👁️</button></td>
+            `;
+            
+            // Attacher l'événement au bouton pour ouvrir la modale
+            tr.querySelector('.action-btn').addEventListener('click', () => {
+                const modalBody = document.getElementById('modalBody'); 
+                modalBody.innerHTML = ""; 
+                Object.keys(d).forEach(k => {
+                    modalBody.innerHTML += `<div class="detail-item"><small>${k.toUpperCase()}</small><div><b>${d[k]}</b></div></div>`; 
+                }); 
+                document.getElementById('detailModal').style.display = "block";
+            });
+
+            // Insérer la nouvelle ligne au début du tableau
+            body.insertBefore(tr, body.firstChild);
+        }); 
+    });
 </script>
 </body>
 </html>
