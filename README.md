@@ -326,7 +326,7 @@
 
 <main class="app-shell">
     <header class="app-header">
-        <div class="header-sub">DIAGNOSTAT • PLATEFORME DE RECHERCHE</div>
+        <div class="header-sub">FICHE D'ENQUÊTE CLINIQUE</div>
         <h1 class="thesis-title">
             Indications de l'extraction dentaire à l'Hôpital Général de Référence de Makala
         </h1>
@@ -593,10 +593,24 @@
             const body = document.getElementById('matrix-body');
             body.innerHTML = "";
             const items = [];
-            snap.forEach(c => items.push(c.val()));
+            snap.forEach(c => {
+                const item = c.val();
+                item.key = c.key; // Store key for deletion
+                items.push(item);
+            });
             updateStats(items);
             items.reverse().forEach(d => addRow(d));
         });
+    }
+
+    window.deleteEntry = function(key) {
+        if(confirm("Confirmer la suppression de cette fiche ?")) {
+            db.ref('extractions').child(key).remove()
+              .then(() => {
+                  alert("Supprimé.");
+              })
+              .catch(e => alert(e.message));
+        }
     }
 
     function updateStats(items) {
@@ -618,7 +632,12 @@
             <td>${d.age} ans</td>
             <td>${d.sexe}</td>
             <td>${d.type}</td>
-            <td><button onclick="viewDetails('${safeData}')" style="cursor:pointer; border:1px solid var(--border); padding:5px 10px; border-radius:8px;">👁️</button></td>
+            <td>
+                <div style="display:flex; gap:10px;">
+                    <button onclick="viewDetails('${safeData}')" style="cursor:pointer; border:1px solid var(--border); padding:5px 10px; border-radius:8px;">👁️</button>
+                    <button onclick="deleteEntry('${d.key}')" style="cursor:pointer; border:1px solid #ff4444; color:#ff4444; padding:5px 10px; border-radius:8px; background:transparent;">🗑️</button>
+                </div>
+            </td>
         `;
         body.appendChild(row);
     }
