@@ -417,11 +417,43 @@
                 </div>
 
                 <div class="field-group" style="margin-bottom: 30px;">
+                    <label>5. Examen(s) complémentaire(s) :</label>
+                    <div class="pills-grid" id="exam_list">
+                        <label class="check-pill"><input type="checkbox" name="examen" value="Radiographie"><span>Radiographie</span></label>
+                        <label class="check-pill"><input type="checkbox" name="examen" value="Panoramique"><span>Panoramique</span></label>
+                        <label class="check-pill"><input type="checkbox" name="examen" value="Aucun"><span>Aucun</span></label>
+                    </div>
+                    <input type="text" id="examen_autres" placeholder="Autres examens...">
+                </div>
+
+                <div class="field-group" style="margin-bottom: 30px;">
                     <label>6. Type d'extraction :</label>
                     <div class="radio-group">
                         <label class="radio-choice"><input type="radio" name="type_extraction" value="Simple"> Simple</label>
                         <label class="radio-choice"><input type="radio" name="type_extraction" value="Chirurgicale"> Chirurgicale</label>
                     </div>
+                </div>
+
+                <div class="field-group" style="margin-bottom: 30px;">
+                    <label>7. Traitement médical associé :</label>
+                    <div class="field-grid">
+                        <div class="field-group"><label>Antalgique :</label><input type="text" id="trait_antalgique" placeholder="..."></div>
+                        <div class="field-group"><label>Antibiotique :</label><input type="text" id="trait_antibiotique" placeholder="..."></div>
+                        <div class="field-group"><label>AINS :</label><input type="text" id="trait_ains" placeholder="..."></div>
+                        <div class="field-group"><label>Bain de bouche :</label><input type="text" id="trait_bain_bouche" placeholder="..."></div>
+                    </div>
+                </div>
+
+                <div class="field-group" style="margin-bottom: 30px;">
+                    <label>8. Complications :</label>
+                    <div class="pills-grid" id="complications_list">
+                        <label class="check-pill"><input type="checkbox" name="complication" value="Aucune"><span>Aucune</span></label>
+                        <label class="check-pill"><input type="checkbox" name="complication" value="Hémorragie"><span>Hémorragie</span></label>
+                        <label class="check-pill"><input type="checkbox" name="complication" value="Infection"><span>Infection</span></label>
+                        <label class="check-pill"><input type="checkbox" name="complication" value="Alvéolite"><span>Alvéolite</span></label>
+                        <label class="check-pill"><input type="checkbox" name="complication" value="Douleur persistante"><span>Douleur persistante</span></label>
+                    </div>
+                    <input type="text" id="complication_autres" placeholder="Autres complications...">
                 </div>
 
                 <div class="field-group">
@@ -564,7 +596,15 @@
             dent: document.getElementById('dent_concernee').value,
             arcade: document.querySelector('input[name="arcade"]:checked')?.value || '-',
             indication: getChecked('indication') + (document.getElementById('indication_autres').value ? ' | ' + document.getElementById('indication_autres').value : ''),
+            examens: getChecked('examen') + (document.getElementById('examen_autres').value ? ' | ' + document.getElementById('examen_autres').value : ''),
             type: document.querySelector('input[name="type_extraction"]:checked')?.value || '-',
+            traitement: {
+                antalgique: document.getElementById('trait_antalgique').value,
+                antibiotique: document.getElementById('trait_antibiotique').value,
+                ains: document.getElementById('trait_ains').value,
+                bain_bouche: document.getElementById('trait_bain_bouche').value
+            },
+            complications: getChecked('complication') + (document.getElementById('complication_autres').value ? ' | ' + document.getElementById('complication_autres').value : ''),
             observations: document.getElementById('observations').value,
             timestamp: new Date().toISOString()
         };
@@ -646,8 +686,36 @@
         const d = JSON.parse(decodeURIComponent(escape(atob(encoded))));
         const body = document.getElementById('modalBody');
         body.innerHTML = "";
-        Object.keys(d).forEach(k => {
-            body.innerHTML += `<div class="detail-item"><small style="text-transform:uppercase; color:var(--text-sec); font-size:10px; font-weight:800;">${k}</small><div style="margin-top:5px; font-weight:600;">${d[k]}</div></div>`;
+        
+        const labels = {
+            fiche: "N° Fiche",
+            enqueteur: "Enquêteur",
+            service: "Service",
+            date: "Date Consultation",
+            age: "Âge",
+            sexe: "Sexe",
+            motif: "Motif de Consultation",
+            dent: "Dent concernée",
+            arcade: "Arcade",
+            indication: "Indication d'extraction",
+            examens: "Examens complémentaires",
+            type: "Type d'extraction",
+            traitement: "Traitement associé",
+            complications: "Complications post-op",
+            observations: "Observations"
+        };
+
+        Object.keys(labels).forEach(k => {
+            if(!d[k]) return;
+            let val = d[k];
+            if(k === 'traitement') {
+                val = Object.entries(val)
+                    .filter(([_, v]) => v)
+                    .map(([subK, subV]) => `<span style="color:var(--primary)">${subK}:</span> ${subV}`)
+                    .join('<br>');
+            }
+            if(!val) return;
+            body.innerHTML += `<div class="detail-item"><small style="text-transform:uppercase; color:var(--text-sec); font-size:10px; font-weight:800;">${labels[k]}</small><div style="margin-top:5px; font-weight:600;">${val}</div></div>`;
         });
         document.getElementById('detailModal').style.display = "block";
     }
