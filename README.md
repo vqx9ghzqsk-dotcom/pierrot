@@ -6,10 +6,11 @@
     <title>DentStat Makala - Plateforme de Recherche Extractions Dentaires</title>
     <meta name="description" content="Plateforme de collecte de données cliniques pour la recherche sur les extractions dentaires à l'HGR Makala.">
     
-    <!-- Google Fonts & Firebase SDK -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         :root {
@@ -339,10 +340,8 @@
         <button class="tab-btn" onclick="switchTab(4)">⚙️ Paramètres</button>
     </nav>
 
-    <!-- TAB 1: COLLECTE -->
     <section id="tab-1" class="content-area active">
         <form id="dentalForm">
-            <!-- I. IDENTIFICATION -->
             <div class="section-box">
                 <div class="section-title"><span>I. IDENTIFICATION</span></div>
                 <div class="field-grid">
@@ -352,7 +351,6 @@
                 </div>
             </div>
 
-            <!-- II. DATE DE CONSULTATION -->
             <div class="section-box">
                 <div class="section-title"><span>II. DATE DE CONSULTATION</span></div>
                 <div class="field-grid">
@@ -360,7 +358,6 @@
                 </div>
             </div>
 
-            <!-- III. DONNÉES SOCIODÉMOGRAPHIQUES -->
             <div class="section-box">
                 <div class="section-title"><span>III. DONNÉES SOCIODÉMOGRAPHIQUES</span></div>
                 <div class="field-grid">
@@ -375,7 +372,6 @@
                 </div>
             </div>
 
-            <!-- IV. DONNÉES CLINIQUES -->
             <div class="section-box">
                 <div class="section-title"><span>IV. DONNÉES CLINIQUES</span></div>
                 
@@ -466,7 +462,6 @@
         </form>
     </section>
 
-    <!-- TAB 2: MATRICE -->
     <section id="tab-2" class="content-area">
         <div id="sync-indicator"><div class="pulse"></div> Données en temps réel</div>
         <div class="data-table-container">
@@ -485,10 +480,10 @@
         </div>
     </section>
 
-    <!-- TAB 3: STATISTIQUES -->
     <section id="tab-3" class="content-area">
         <div class="section-title"><span>📈 Aperçu Statistique</span></div>
-        <div class="field-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+        
+        <div class="field-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 40px;">
             <div class="detail-item" style="text-align:center;">
                 <small>Total Fiches</small>
                 <div id="stat-total" style="font-size:32px; font-weight:800; color:var(--primary); margin-top:10px;">0</div>
@@ -502,14 +497,38 @@
                 <div id="stat-ratio" style="font-size:32px; font-weight:800; color:var(--primary-dark); margin-top:10px;">0:0</div>
             </div>
         </div>
-        <div style="margin-top:40px; padding:40px; background:#f8fafc; border-radius:var(--radius-md); text-align:center; border:2px dashed var(--border);">
-            <div style="font-size:40px; margin-bottom:20px;">📊</div>
-            <h3 style="margin:0; color:var(--text-main);">Visualisation Graphique</h3>
-            <p style="color:var(--text-sec);">Génération automatique des graphiques lors de la collecte.</p>
+
+        <div class="field-grid" style="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); margin-bottom: 40px;">
+            <div style="background:#fff; padding:20px; border-radius:var(--radius-md); border:1px solid var(--border); box-shadow:var(--shadow-sm);">
+                <canvas id="chartTypeExtraction"></canvas>
+            </div>
+            <div style="background:#fff; padding:20px; border-radius:var(--radius-md); border:1px solid var(--border); box-shadow:var(--shadow-sm);">
+                <canvas id="chartSexe"></canvas>
+            </div>
+        </div>
+
+        <div class="section-title"><span>📊 1. Tableaux de Fréquence</span></div>
+        <div class="field-grid" style="grid-template-columns: 1fr 1fr;">
+            <div id="freq-age" class="data-table-container"></div>
+            <div id="freq-sexe" class="data-table-container"></div>
+            <div id="freq-motif" class="data-table-container" style="grid-column: 1 / -1;"></div>
+            <div id="freq-indication" class="data-table-container" style="grid-column: 1 / -1;"></div>
+            <div id="freq-type" class="data-table-container"></div>
+            <div id="freq-complications" class="data-table-container"></div>
+        </div>
+
+        <div class="section-title" style="margin-top: 60px;"><span>🔗 2. Croisements (Analyse Bivariée)</span></div>
+        <div class="field-grid" style="grid-template-columns: 1fr;">
+            <div id="cross-age-sexe" class="data-table-container"></div>
+            <div id="cross-age-indication" class="data-table-container"></div>
+            <div id="cross-indication-type" class="data-table-container"></div>
+            <div id="cross-dent-indication" class="data-table-container"></div>
+            <div id="cross-type-complication" class="data-table-container"></div>
+            <div id="cross-examen-type" class="data-table-container"></div>
+            <div id="cross-traitement-complication" class="data-table-container"></div>
         </div>
     </section>
 
-    <!-- TAB 4: PARAMÈTRES -->
     <section id="tab-4" class="content-area">
         <div class="section-title"><span>⚙️ Système</span></div>
         <div class="detail-item" style="display:flex; justify-content:space-between; align-items:center; border-left:none; border:1px solid var(--border);">
@@ -528,11 +547,10 @@
 
 <button id="backToTop">↑</button>
 
-<!-- DETAIL MODAL -->
 <div id="detailModal" class="modal">
     <div class="modal-content">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
-            <h2 style="margin:0; color:var(--primary); font-size:1.2rem;">DÉTAILS LA FICHE</h2>
+            <h2 style="margin:0; color:var(--primary); font-size:1.2rem;">DÉTAILS DE LA FICHE</h2>
             <span class="close-btn" onclick="closeModal()">&times;</span>
         </div>
         <div id="modalBody" class="detail-grid"></div>
@@ -653,14 +671,176 @@
         }
     }
 
+    // --- FONCTIONS STATISTIQUES UTILITAIRES ---
+    
+    // Fonction pour regrouper les âges en tranches
+    function getAgeGroup(age) {
+        if(!age) return "Non précisé";
+        const a = parseInt(age);
+        if(a < 18) return "< 18 ans";
+        if(a <= 35) return "18-35 ans";
+        if(a <= 50) return "36-50 ans";
+        return "> 50 ans";
+    }
+
+    // Fonction pour extraire les réponses multiples (cases à cocher séparées par des virgules)
+    function parseMultiple(str) {
+        if (!str || str === '-') return ['Aucun/Non spécifié'];
+        let mainPart = str.split(' | ')[0]; // On ignore la partie "Autres" pour les statistiques standard
+        if(!mainPart) return ['Aucun'];
+        return mainPart.split(', ').filter(v => v.trim() !== '');
+    }
+
+    // Fonction pour extraire les traitements pris
+    function getTraitements(item) {
+        let tr = [];
+        if(item.traitement?.antalgique) tr.push("Antalgique");
+        if(item.traitement?.antibiotique) tr.push("Antibiotique");
+        if(item.traitement?.ains) tr.push("AINS");
+        if(item.traitement?.bain_bouche) tr.push("Bain de bouche");
+        return tr.length ? tr : ["Aucun traitement"];
+    }
+
+    // Générateur de Tableau de Fréquence Simple
+    function buildFreqTable(data, title, fieldFunc) {
+        const counts = {};
+        let totalResponses = 0;
+        
+        data.forEach(item => {
+            const vals = fieldFunc(item);
+            (Array.isArray(vals) ? vals : [vals]).forEach(v => {
+                const val = v || "Non spécifié";
+                counts[val] = (counts[val] || 0) + 1;
+                totalResponses++;
+            });
+        });
+        
+        let html = `<h4 style="padding:15px 24px; margin:0; background:#f8fafc; border-bottom:1px solid var(--border); color:var(--primary);">${title}</h4>
+                    <table style="min-width:100%;"><thead><tr><th>Catégorie</th><th>Effectif (n)</th><th>Fréquence (%)</th></tr></thead><tbody>`;
+        
+        const sorted = Object.entries(counts).sort((a,b) => b[1] - a[1]); // Tri décroissant
+        
+        sorted.forEach(([k, v]) => {
+            const pct = totalResponses > 0 ? ((v / totalResponses) * 100).toFixed(1) : 0;
+            html += `<tr><td>${k}</td><td>${v}</td><td>${pct}%</td></tr>`;
+        });
+        html += `</tbody><tfoot><tr><th>Total</th><th>${totalResponses}</th><th>100%</th></tr></tfoot></table>`;
+        return html;
+    }
+
+    // Générateur de Tableau Croisé (Contingence)
+    function buildCrossTable(data, title, rowFunc, colFunc) {
+        const matrix = {};
+        const colTotals = {};
+        const colsSet = new Set();
+        let grandTotal = 0;
+
+        data.forEach(item => {
+            const rows = rowFunc(item);
+            const cols = colFunc(item);
+            
+            const rowArr = Array.isArray(rows) ? rows : [rows];
+            const colArr = Array.isArray(cols) ? cols : [cols];
+
+            rowArr.forEach(r => {
+                const rowVal = r || "Non spécifié";
+                if (!matrix[rowVal]) matrix[rowVal] = {};
+                
+                colArr.forEach(c => {
+                    const colVal = c || "Non spécifié";
+                    colsSet.add(colVal);
+                    matrix[rowVal][colVal] = (matrix[rowVal][colVal] || 0) + 1;
+                    colTotals[colVal] = (colTotals[colVal] || 0) + 1;
+                    grandTotal++;
+                });
+            });
+        });
+
+        const colsArray = Array.from(colsSet).sort();
+        
+        let html = `<h4 style="padding:15px 24px; margin:0; background:#f8fafc; border-bottom:1px solid var(--border); color:var(--primary);">${title}</h4>
+                    <div style="overflow-x:auto;"><table style="min-width:100%;"><thead><tr><th>Variables</th>`;
+        
+        colsArray.forEach(c => { html += `<th>${c}</th>`; });
+        html += `<th>Total Ligne</th></tr></thead><tbody>`;
+
+        Object.keys(matrix).sort().forEach(r => {
+            html += `<tr><td><b>${r}</b></td>`;
+            let rTotal = 0;
+            colsArray.forEach(c => {
+                const val = matrix[r][c] || 0;
+                rTotal += val;
+                html += `<td>${val}</td>`;
+            });
+            html += `<td><b>${rTotal}</b></td></tr>`;
+        });
+        
+        html += `</tbody><tfoot><tr><th>Total Colonne</th>`;
+        let cGrand = 0;
+        colsArray.forEach(c => {
+            const val = colTotals[c] || 0;
+            cGrand += val;
+            html += `<th>${val}</th>`;
+        });
+        html += `<th>${cGrand}</th></tr></tfoot></table></div>`;
+        return html;
+    }
+
+    // --- MISE À JOUR PRINCIPALE (STATS & GRAPHIQUES) ---
+    let chartTypeExt = null;
+    let chartSexeStat = null;
+
     function updateStats(items) {
         if(!items.length) return;
+        
+        // 1. Chiffres Clés
         document.getElementById('stat-total').innerText = items.length;
         const avg = items.reduce((acc, c) => acc + (parseInt(c.age) || 0), 0) / items.length;
         document.getElementById('stat-age').innerText = Math.round(avg) + " ans";
         const m = items.filter(i => i.sexe === 'Masculin').length;
         const f = items.filter(i => i.sexe === 'Féminin').length;
         document.getElementById('stat-ratio').innerText = `${m}:${f}`;
+
+        // 2. Graphiques
+        const types = {'Simple': 0, 'Chirurgicale': 0};
+        items.forEach(i => { if(types[i.type] !== undefined) types[i.type]++; });
+
+        if(chartTypeExt) chartTypeExt.destroy();
+        chartTypeExt = new Chart(document.getElementById('chartTypeExtraction'), {
+            type: 'bar',
+            data: {
+                labels: Object.keys(types),
+                datasets: [{ label: 'Nombre de cas', data: Object.values(types), backgroundColor: ['#00897b', '#ffb300'] }]
+            },
+            options: { plugins: { title: { display: true, text: "Types d'Extraction" } } }
+        });
+
+        if(chartSexeStat) chartSexeStat.destroy();
+        chartSexeStat = new Chart(document.getElementById('chartSexe'), {
+            type: 'pie',
+            data: {
+                labels: ['Masculin', 'Féminin'],
+                datasets: [{ data: [m, f], backgroundColor: ['#3182ce', '#e53e3e'] }]
+            },
+            options: { plugins: { title: { display: true, text: "Répartition par Sexe" } } }
+        });
+
+        // 3. GÉNÉRATION DES TABLEAUX DE FRÉQUENCE
+        document.getElementById('freq-age').innerHTML = buildFreqTable(items, "Répartition selon l'Âge", i => getAgeGroup(i.age));
+        document.getElementById('freq-sexe').innerHTML = buildFreqTable(items, "Répartition selon le Sexe", i => i.sexe);
+        document.getElementById('freq-motif').innerHTML = buildFreqTable(items, "Répartition selon le Motif", i => parseMultiple(i.motif));
+        document.getElementById('freq-indication').innerHTML = buildFreqTable(items, "Répartition selon l'Indication", i => parseMultiple(i.indication));
+        document.getElementById('freq-type').innerHTML = buildFreqTable(items, "Répartition selon le Type", i => i.type);
+        document.getElementById('freq-complications').innerHTML = buildFreqTable(items, "Répartition selon les Complications", i => parseMultiple(i.complications));
+
+        // 4. GÉNÉRATION DES TABLEAUX CROISÉS
+        document.getElementById('cross-age-sexe').innerHTML = buildCrossTable(items, "Âge + Sexe", i => getAgeGroup(i.age), i => i.sexe);
+        document.getElementById('cross-age-indication').innerHTML = buildCrossTable(items, "Âge + Indications", i => getAgeGroup(i.age), i => parseMultiple(i.indication));
+        document.getElementById('cross-indication-type').innerHTML = buildCrossTable(items, "Indications + Type d'extraction", i => parseMultiple(i.indication), i => i.type);
+        document.getElementById('cross-dent-indication').innerHTML = buildCrossTable(items, "Dent concernée + Indications", i => i.dent || "Non précisé", i => parseMultiple(i.indication));
+        document.getElementById('cross-type-complication').innerHTML = buildCrossTable(items, "Type d'extraction + Complications", i => i.type, i => parseMultiple(i.complications));
+        document.getElementById('cross-examen-type').innerHTML = buildCrossTable(items, "Examen complémentaire + Type d'extraction", i => parseMultiple(i.examens), i => i.type);
+        document.getElementById('cross-traitement-complication').innerHTML = buildCrossTable(items, "Traitement médical + Complications", i => getTraitements(i), i => parseMultiple(i.complications));
     }
 
     function addRow(d) {
